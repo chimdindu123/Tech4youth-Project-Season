@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B0B0F">
+    <title>Sign In | KARTZUKI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body class="auth-page">
+    <!-- KARTZUKI BRAND LOADER -->
+<div class="kz-loader" id="brandLoader">
+
+    <div class="kz-loader-content">
+
+        <!-- Cart + Blade Logo -->
+        <div class="kz-loader-logo">
+
+            <svg viewBox="0 0 100 100"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <defs>
+                    <linearGradient id="orangeBlade"
+                        x1="0%" y1="0%"
+                        x2="100%" y2="100%">
+
+                        <stop offset="0%" stop-color="#FF9D42"/>
+                        <stop offset="100%" stop-color="#FF6A00"/>
+
+                    </linearGradient>
+                </defs>
+
+                <!-- Shopping cart handle -->
+                <path d="M9 20 H21 L29 69
+                         Q30 76 37 76 H73
+                         Q79 76 81 69 L89 38 H30"
+                      fill="none"
+                      stroke="url(#orangeBlade)"
+                      stroke-width="6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+
+                <!-- Cart detail -->
+                <path d="M39 48 H78"
+                      stroke="#FF9D42"
+                      stroke-width="4"
+                      stroke-linecap="round"/>
+
+                <!-- Futuristic blade -->
+                <path d="M57 7 L83 19 L48 63
+                         L43 51 Z"
+                      fill="url(#orangeBlade)"/>
+
+                <!-- Blade edge -->
+                <path d="M57 7 L65 31"
+                      stroke="#F4F1EC"
+                      stroke-width="2.5"
+                      fill="none"/>
+
+                <!-- Wheels -->
+                <circle cx="39" cy="88" r="6"
+                        fill="#FF6A00"/>
+
+                <circle cx="73" cy="88" r="6"
+                        fill="#FF9D42"/>
+
+            </svg>
+
+        </div>
+
+        <!-- Brand name -->
+        <h1 class="kz-loader-name">KARTZUKI<span>.</span></h1>
+
+        <!-- Tagline -->
+        <p class="kz-loader-tagline">
+            THE FUTURE IS IN YOUR CART.
+        </p>
+
+        <div class="kz-loader-line"></div>
+
+    </div>
+
+</div>
+
+    <main class="auth-wrapper">
+
+        <a href="index.html" class="auth-back">← Back to Home</a>
+
+        <section class="auth-card">
+
+            <div class="auth-brand">
+                <svg viewBox="0 0 160 150" aria-label="KARTZUKI logo">
+                    <defs>
+                        <linearGradient id="authBlade" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#FF9D42"/>
+                            <stop offset="100%" stop-color="#FF6A00"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M29 32 H54 M29 32 L45 119 H125 L143 54 H119"
+                          fill="none" stroke="#FF6A00" stroke-width="8"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M64 65 H109" stroke="#FF9D42" stroke-width="7"/>
+                    <path d="M112 12 L145 29 L90 111 L99 48 Z"
+                          fill="url(#authBlade)"/>
+                    <path d="M112 12 L145 29 L130 54 L99 48 Z" fill="#F4F1EC"/>
+                    <circle cx="59" cy="137" r="9" fill="#FF6A00"/>
+                    <circle cx="119" cy="137" r="9" fill="#FF9D42"/>
+                </svg>
+
+                <h1>KARTZUKI</h1>
+                <p>THE FUTURE IS IN YOUR CART.</p>
+            </div>
+
+            <h2>Welcome <span>Back.</span></h2>
+            <p class="auth-description">
+                Sign in to continue your KARTZUKI experience.
+            </p>
+
+            <form class="auth-form" id="signinForm">
+
+                <div>
+                    <label for="signinEmail">Email Address</label>
+                    <input type="email" id="signinEmail"
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div>
+                    <label for="signinPassword">Password</label>
+
+                    <div class="password-box">
+                        <input type="password" id="signinPassword"
+                               placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle"
+                                data-target="signinPassword">Show</button>
+                    </div>
+                </div>
+
+                <div class="auth-options">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        Remember me
+                    </label>
+
+                    <a href="#" id="forgotPassword">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Sign In →
+                </button>
+
+                <p id="signinFeedback" class="form-feedback"
+                   aria-live="polite"></p>
+
+            </form>
+
+            <p class="auth-switch">
+                Don't have an account?
+                <a href="signup.html">Create Account</a>
+            </p>
+
+        </section>
+    </main>
+
+</body>
+</html>
