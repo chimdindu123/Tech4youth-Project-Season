@@ -33,12 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
 
+        // Close the menu when a link is clicked.
         mainNav.querySelectorAll("a").forEach(function (link) {
 
             link.addEventListener("click", function () {
 
                 mainNav.classList.remove("active");
                 menuToggle.classList.remove("active");
+
                 menuToggle.setAttribute("aria-expanded", "false");
 
             });
@@ -63,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (entry.isIntersecting) {
 
                     entry.target.classList.add("visible");
+
+                    // Stop watching an element after it appears.
                     observer.unobserve(entry.target);
 
                 }
@@ -79,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     } else {
 
+        // Show everything if the browser does not support the animation.
         revealElements.forEach(function (element) {
             element.classList.add("visible");
         });
@@ -96,12 +101,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const input = document.getElementById(button.dataset.target);
 
-            if (!input) return;
+            if (!input) {
+                return;
+            }
 
-            const showing = input.type === "password";
+            if (input.type === "password") {
 
-            input.type = showing ? "text" : "password";
-            button.textContent = showing ? "Hide" : "Show";
+                input.type = "text";
+                button.textContent = "Hide";
+
+            } else {
+
+                input.type = "password";
+                button.textContent = "Show";
+
+            }
 
         });
 
@@ -114,7 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showFeedback(element, message, type) {
 
-        if (!element) return;
+        if (!element) {
+            return;
+        }
 
         element.textContent = message;
         element.className = "form-feedback " + type;
@@ -138,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let score = 0;
 
+            // Check the password for different requirements.
             if (password.length >= 8) score++;
             if (/[A-Z]/.test(password)) score++;
             if (/[a-z]/.test(password)) score++;
@@ -153,9 +170,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 ["Very strong", "100%", "#FF6A00"]
             ];
 
-            const result = password.length === 0
-                ? levels[0]
-                : levels[score];
+            let result;
+
+            if (password.length === 0) {
+                result = levels[0];
+            } else {
+                result = levels[score];
+            }
 
             strengthText.textContent = result[0];
             strengthBar.style.width = result[1];
@@ -187,18 +208,37 @@ document.addEventListener("DOMContentLoaded", function () {
             const feedback = document.getElementById("signupFeedback");
             const button = signupForm.querySelector("button[type='submit']");
 
+            // Check the password before sending the form.
             if (password.length < 8) {
-                showFeedback(feedback, "Password must contain at least 8 characters.", "error");
+
+                showFeedback(
+                    feedback,
+                    "Password must contain at least 8 characters.",
+                    "error"
+                );
+
                 return;
             }
 
             if (password !== confirmPassword) {
-                showFeedback(feedback, "Passwords do not match.", "error");
+
+                showFeedback(
+                    feedback,
+                    "Passwords do not match.",
+                    "error"
+                );
+
                 return;
             }
 
             if (!terms) {
-                showFeedback(feedback, "Please accept the terms and conditions.", "error");
+
+                showFeedback(
+                    feedback,
+                    "Please accept the terms and conditions.",
+                    "error"
+                );
+
                 return;
             }
 
@@ -249,13 +289,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
 
-                showFeedback(
-                    feedback,
-                    error.message.includes("Failed to fetch")
-                        ? "Unable to connect to the server. Please try again."
-                        : error.message,
-                    "error"
-                );
+                if (error.message.includes("Failed to fetch")) {
+
+                    showFeedback(
+                        feedback,
+                        "Unable to connect to the server. Please try again.",
+                        "error"
+                    );
+
+                } else {
+
+                    showFeedback(feedback, error.message, "error");
+
+                }
 
             } finally {
 
@@ -326,13 +372,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
 
-                showFeedback(
-                    feedback,
-                    error.message.includes("Failed to fetch")
-                        ? "Unable to connect to the server. Please try again."
-                        : error.message,
-                    "error"
-                );
+                if (error.message.includes("Failed to fetch")) {
+
+                    showFeedback(
+                        feedback,
+                        "Unable to connect to the server. Please try again.",
+                        "error"
+                    );
+
+                } else {
+
+                    showFeedback(feedback, error.message, "error");
+
+                }
 
             } finally {
 
@@ -370,8 +422,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 document.getElementById("signinEmail").focus();
-                return;
 
+                return;
             }
 
             try {
@@ -447,7 +499,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
-
             }
 
             button.disabled = true;
@@ -482,8 +533,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const result = await response.json();
 
-                if (!response.ok || result.success !== true &&
-                    result.success !== "true") {
+                if (
+                    !response.ok ||
+                    (result.success !== true && result.success !== "true")
+                ) {
                     throw new Error("Message could not be sent.");
                 }
 
@@ -517,27 +570,87 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // =====================================
-    // KARTZUKI BRAND LOADER
+    // KARTZUKI PAGE TRANSITIONS
     // =====================================
 
     const brandLoader = document.getElementById("brandLoader");
 
-    if (brandLoader) {
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-        const reducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches;
+    // Hide the loader after the page first opens.
+    if (brandLoader) {
 
         const loaderDuration = reducedMotion ? 300 : 2700;
 
         setTimeout(function () {
-
             brandLoader.classList.add("hide-loader");
-
-            setTimeout(function () {
-                brandLoader.remove();
-            }, 750);
-
         }, loaderDuration);
 
     }
+
+
+    // =====================================
+    // SHOW LOADER WHEN CHANGING PAGES
+    // =====================================
+
+    document.querySelectorAll("a[href]").forEach(function (link) {
+
+        link.addEventListener("click", function (event) {
+
+            const href = link.getAttribute("href");
+
+            // Ignore empty links and page-section links.
+            if (!href || href.startsWith("#")) {
+                return;
+            }
+
+            // Ignore links that open in another tab.
+            if (link.target === "_blank" || link.hasAttribute("download")) {
+                return;
+            }
+
+            // Ignore special links such as email and telephone links.
+            if (
+                href.startsWith("mailto:") ||
+                href.startsWith("tel:") ||
+                href.startsWith("javascript:")
+            ) {
+                return;
+            }
+
+            const nextPage = new URL(link.href, window.location.href);
+
+            // Only animate links within the KARTZUKI website.
+            if (nextPage.origin !== window.location.origin) {
+                return;
+            }
+
+            // Ignore links pointing to the current page.
+            if (
+                nextPage.pathname === window.location.pathname &&
+                nextPage.search === window.location.search
+            ) {
+                return;
+            }
+
+            if (!brandLoader) {
+                return;
+            }
+
+            event.preventDefault();
+
+            // Show the loading screen again.
+            brandLoader.classList.remove("hide-loader");
+
+            // Give the animation time to appear before changing pages.
+            const transitionDelay = reducedMotion ? 50 : 700;
+
+            setTimeout(function () {
+                window.location.href = nextPage.href;
+            }, transitionDelay);
+
+        });
+
+    });
